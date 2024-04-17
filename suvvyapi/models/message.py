@@ -36,7 +36,7 @@ class RequestMessage(Message):
 
 class DialogueMessage(Message):
     message_id: UUID4 = Field(frozen=True)
-    tokens: int = Field(frozen=True)
+    tokens: int | None = Field(frozen=True)
     created_at: datetime = Field(frozen=True)
 
     message_sender: SenderRole = Field(frozen=True)
