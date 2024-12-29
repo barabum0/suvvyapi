@@ -29,6 +29,14 @@ class Attachment:
     data: str
     message_id: str
 
+    def to_dict(self) -> dict:
+        return {
+            "file_name": self.file_name,
+            "file_type": self.file_type,
+            "data": self.data,
+            "message_id": self.message_id,
+        }
+
 
 def determine_attachment_type(mybytes: bytes) -> Literal["image", "audio"]:
     mime_type = magic.from_buffer(mybytes, mime=True)
