@@ -69,7 +69,7 @@ class AsyncSuvvy(httpx.AsyncClient):
                 "source": source,
                 "text": text,
                 "attachments": [a.to_dict() for a in input_to_attachments(attachments)] if attachments else [],
-                "placeholders": placeholders,
+                "placeholders": placeholders or {},
                 "link": link.to_dict() if link is not None else None,
                 "client_name": client_name,
                 "client_phone": client_phone,
@@ -90,6 +90,6 @@ class AsyncSuvvy(httpx.AsyncClient):
             case 402:
                 raise NegativeBalance
             case 422:
-                raise ValidationError
+                raise ValidationError(response.json())
             case _:
                 raise SuvvyError(response.json())
