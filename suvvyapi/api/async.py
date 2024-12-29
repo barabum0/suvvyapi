@@ -70,7 +70,7 @@ class AsyncSuvvy(httpx.AsyncClient):
                 "text": text,
                 "attachments": [a.to_dict() for a in input_to_attachments(attachments)] if attachments else [],
                 "placeholders": placeholders,
-                "link": link,
+                "link": link.to_dict(),
                 "client_name": client_name,
                 "client_phone": client_phone,
                 "message_sender": message_sender.value,
