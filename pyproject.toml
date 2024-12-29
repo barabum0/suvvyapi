@@ -26,6 +26,7 @@ repository = "https://github.com/suvvyai/suvvyapi"
 python = ">=3.10,<4.0"
 httpx = "^0.26.0"
 deprecation = "^2.1.0"
+python-magic = "^0.4.27"
 
 [tool.poetry.group.dev.dependencies]
 devtools = "^0.12.2"
