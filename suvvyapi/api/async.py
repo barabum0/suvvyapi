@@ -6,6 +6,10 @@ import httpx
 
 from suvvyapi.types.attachment import Attachment, input_to_attachments
 from suvvyapi.types.enum import SuvvyMessageSender
+from suvvyapi.types.exceptions import (
+    InvalidToken, CustomChannelDisabled, InvalidFileType, NegativeBalance,
+    ValidationError, SuvvyError
+)
 from suvvyapi.types.link import Link
 
 
@@ -57,7 +61,7 @@ class AsyncSuvvy(httpx.AsyncClient):
         if text is None and not attachments:
             raise ValueError("Either text or attachments must be specified")
 
-        await self.post(
+        response = await self.post(
             "/api/webhook/custom/message",
             json={
                 "api_version": 1,
@@ -73,3 +77,19 @@ class AsyncSuvvy(httpx.AsyncClient):
                 "message_id": message_id,
             },
         )
+
+        match response.status_code:
+            case 200:
+                return
+            case 401:
+                raise InvalidToken
+            case 424:
+                raise CustomChannelDisabled
+            case 415:
+                raise InvalidFileType(f"Allowed types: {response.json()["allowed_mime_types"]}")
+            case 402:
+                raise NegativeBalance
+            case 422:
+                raise ValidationError
+            case _:
+                raise SuvvyError(response.json())
