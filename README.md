@@ -13,7 +13,7 @@
 
 ## About SuvvyAPI 📘
 
-SuvvyAPI is an asynchronous Python API wrapper built on top of `httpx` and `pydantic` for the Suvvy AI API, offering an easy and Pythonic way to interact with the Suvvy AI services.
+SuvvyAPI is an asynchronous Python API wrapper built on top of `httpx` for the Suvvy AI API, offering an easy and Pythonic way to interact with the Suvvy AI services.
 
 ## Installation 🛠️
 
@@ -25,18 +25,26 @@ pip install -U suvvyapi
 
 ## Usage 🚀
 
-### Synchronous Usage
+### Asynchronous Usage
 
-You can use SuvvyAPI synchronously as follows:
+You can use SuvvyAPI asynchronously as follows:
 
 ```python
-from suvvyapi import Suvvy, Message
+import asyncio
+from suvvyapi import AsyncSuvvy
 
-suvvy = Suvvy("YOUR_TOKEN")
-history = suvvy.as_history("random_id")
-response = history.predict_add_message(Message(text="Say hello to Python!"))
+
+async def main():
+    async with AsyncSuvvy(
+        token="<your token>",
+    ) as suvvy:
+        await suvvy.send_message(chat_id="somechat1", text="Привет!", source="Иван")
+
+
+asyncio.run(main())
+
 ```
-*Note: Replace "YOUR_TOKEN" with your actual token from [Suvvy AI](https://home.suvvy.ai/).*
+*Note: Replace "your token" with your actual token from [Suvvy AI](https://app.suvvy.ai/).*
 
 ### [More in documentation](https://github.com/suvvyai/suvvyapi/wiki)
 
